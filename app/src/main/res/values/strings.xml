@@ -1,5 +1,12 @@
 <resources>
-    <string name="app_name">Label1</string>
-    <string name="hello_message">Hello World!</string>
-    <string name="ButtonText">I am a button</string>
+    <string name="textView"> Here are my widgets: </string>
+    <string name="button"> Button </string>
+    <string name="checkBox">Check this out!</string>
+    <string name="switchOnOff">Switch on/off</string>
+    <string name="editText">editText</string>
+    <string name="app_name">appName</string>
+
+
+
+
 </resources>

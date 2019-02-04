@@ -5,5 +5,18 @@
     <string name="checkBox"> 请选择 </string>
     <string name="switchOnOff"> 开/关 </string>
     <string name="editText"> 修改 </string>
-    <string name="app_name"> 随便 </string>
-  </resources>
+    <string name="app_name"> 个人页面 </string>
+    <string name="textViewYourProfile">个人档案</string>
+    <string name="textViewYourName">你的名字</string>
+    <string name="textViewProEmail">你的邮箱</string>
+    <string name="textViewYourPicture">你的照片</string>
+    <string name="textViewClickPicture">请拍照</string>
+    <string name="textViewEmail">输入邮箱:</string>
+    <string name="textViewPassword">输入密码:</string>
+    <string name="buttonLogin">登录</string>
+    <string name="btnSend">发送</string>
+    <string name="btnReceive">接收</string>
+    <string name="btnGoToChat">前往聊天室</string>
+
+
+</resources>

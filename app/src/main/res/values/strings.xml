@@ -4,8 +4,18 @@
     <string name="checkBox">Check this out!</string>
     <string name="switchOnOff">Switch on/off</string>
     <string name="editText">editText</string>
-    <string name="app_name">appName</string>
-
+    <string name="app_name">profile</string>
+    <string name="textViewYourProfile">Your profile</string>
+    <string name="textViewYourName">Your name</string>
+    <string name="textViewProEmail">Your Email</string>
+    <string name="textViewYourPicture">Your picture</string>
+    <string name="textViewClickPicture">Click the button above to take a picture</string>
+    <string name="textViewEmail">Enter your email:</string>
+    <string name="textViewPassword">Type your password:</string>
+    <string name="buttonLogin">Login</string>
+    <string name="btnSend">send </string>
+    <string name="btnReceive">Receive </string>
+    <string name="btnGoToChat">Go to chat </string>
 
 
 

@@ -21,9 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activityProfile" />
-        <activity android:name=".ChatRoomActivity">
-
-        </activity>
+        <activity android:name=".ChatRoomActivity" />
     </application>
 
 </manifest>

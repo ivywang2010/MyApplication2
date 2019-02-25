@@ -19,6 +19,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import java.util.List;
 import java.util.ArrayList;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.Cursor;
 
 
 
@@ -34,10 +36,37 @@ public class ChatRoomActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
+
+        //getting the chatText field from the screen
         ListView listView = findViewById(R.id.MessagelistView);
         chatText = findViewById(R.id.editChat);
+
+
         myAdapter = new MessageAdapter(this);
         listView.setAdapter(myAdapter);
+
+        //instantiate an object of myopener and get a database
+        MyOpener mo = new MyOpener(this);
+        SQLiteDatabase db = mo.getWritableDatabase();
+
+        //query all the results from the database
+        String [] columns = {mo.COL_ID, mo.COL_MESSAGE};
+        Cursor results = db.query(false, mo.TABLE_NAME, columns, null, null, null, null, null, null);
+
+        //find the column indices:
+        int MessageColumnIndex = results.getColumnIndex(mo.COL_MESSAGE);
+        int idColIndex = results.getColumnIndex(mo.COL_ID);
+
+        //iterate over the results, return true if there is a next item
+        while(results.moveToNext())
+        {
+            String msg = results.getString(MessageColumnIndex);
+
+            long id = results.getLong(idColIndex);
+
+            //add the new Contact to the array list:
+            chatMessage.add(new Message(msg, id));
+        }
 
         //set sending button onclick listener
         Button btSend = findViewById(R.id.btnSend);
@@ -72,41 +101,40 @@ public class ChatRoomActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
                 TextView textViewItem = (view.findViewById(R.id.chatMessage));
-
                 String listItemText = textViewItem.getText().toString();
-
-               // Log.d("messageListView", "onItemClick: " + i + " " + l);
+                Log.d("messageListView", "onItemClick: " + i + " " + l);
             }
         });
-
-
     }
-
 
 
     //inner class MessageAdapter which extends array adapter taking Message object as parameter
     public class MessageAdapter extends ArrayAdapter<Message>// {
     {
 
-       public MessageAdapter(Context ctx) {
+        public MessageAdapter(Context ctx) {
 
             super(ctx, 0);
         }
-       //return the size of Message arraylist
+
+        //return the size of Message arraylist
         public int getCount() {
 
             return chatMessage.size();
         }
-       //get the position
+
+        //get the position
         public long getItemId(int position) {
             return position;
 
         }
+
         //get the message item  from the list with specified index
         public Message getItem(int position) {
 
             return chatMessage.get(position);
         }
+
         //get the view
         public View getView(int position, View oldView, ViewGroup parent) {
             LayoutInflater inflater = ChatRoomActivity.this.getLayoutInflater();
@@ -115,7 +143,7 @@ public class ChatRoomActivity extends AppCompatActivity {
             if (getItem(position).getMsgType() == RECEIVING_MESSAGE) {
                 result = inflater.inflate(R.layout.activity_single_row_receiving, null);
             }
-            if(getItem(position).getMsgType() == SENDING_MESSAGE){
+            if (getItem(position).getMsgType() == SENDING_MESSAGE) {
                 result = inflater.inflate(R.layout.activity_single_row_sending, null);
             }
 
@@ -127,31 +155,54 @@ public class ChatRoomActivity extends AppCompatActivity {
         }
 
     }
+}
 
-   //inner class message to store the information of messages received and sent
-    class Message {
-        private String messages;
-        private int msgType;
 
-        Message(String m, int type) {
-            this.messages = m;
-            this.msgType = type;
-        }
+ // class message to store the information of messages received and sent
+class Message {
+    private String messages;
+    private int msgType;
+    private long dbID;
 
-        String getMessages() {
-            return messages;
-        }
-
-        void setMessages(String messages) {
-            this.messages = messages;
-        }
-
-        int getMsgType() {
-            return msgType;
-        }
-
-        private void setMsgType(int msgType) {
-            this.msgType = msgType;
-        }
+    public Message(){
+       messages = null;
+       msgType = 0;
     }
+
+    public Message(String m, int type) {
+        setMessages(m);
+        setMsgType(type);
+        //setDbId(id);
+
+    }
+
+    public Message(String m, long id){
+        setMessages(m);
+        setDbId(id);
+    }
+
+    String getMessages() {
+        return messages;
+    }
+
+    private void setMessages(String messages) {
+        this.messages = messages;
+    }
+
+    int getMsgType() {
+        return msgType;
+    }
+
+    private void setMsgType(int msgType) {
+        this.msgType = msgType;
+    }
+
+    long getDbId(){
+        return dbID;
+    }
+
+    private void setDbId(long id){
+        this.dbID=id;
+    }
+
 }

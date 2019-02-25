@@ -31,6 +31,7 @@ public class activityProfile extends AppCompatActivity {
             }
         }
 
+
         mImageButton = findViewById(R.id.imageButton);
         if (mImageButton != null) {
             mImageButton.setOnClickListener(new View.OnClickListener() {

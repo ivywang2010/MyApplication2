@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +20,8 @@ import java.util.List;
 import java.util.ArrayList;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.Cursor;
+import android.widget.Toast;
+import android.util.Log;
 
 
 
@@ -31,43 +32,53 @@ public class ChatRoomActivity extends AppCompatActivity {
     protected static final int RECEIVING_MESSAGE = 2;
     protected MessageAdapter myAdapter;
     private List<Message> chatMessage = new ArrayList<>();
+    protected static MyOpener mo;
+    Cursor results;
+    protected static SQLiteDatabase db;
+    String[] arguments = new String[] { mo.COL_ID, mo.COL_MESSAGE,mo.COL_TYPE};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
 
-        //getting the chatText field from the screen
-        ListView listView = findViewById(R.id.MessagelistView);
-        chatText = findViewById(R.id.editChat);
-
-
-        myAdapter = new MessageAdapter(this);
-        listView.setAdapter(myAdapter);
-
         //instantiate an object of myopener and get a database
-        MyOpener mo = new MyOpener(this);
-        SQLiteDatabase db = mo.getWritableDatabase();
+         mo = new MyOpener(this);
+        db = mo.getWritableDatabase();
 
         //query all the results from the database
-        String [] columns = {mo.COL_ID, mo.COL_MESSAGE};
-        Cursor results = db.query(false, mo.TABLE_NAME, columns, null, null, null, null, null, null);
+        String [] columns = {mo.COL_ID, mo.COL_MESSAGE,mo.COL_TYPE};
+        results = db.query(false, mo.TABLE_NAME, columns, null, null, null, null, null, null);
+
+       //  printCursor(results);
 
         //find the column indices:
-        int MessageColumnIndex = results.getColumnIndex(mo.COL_MESSAGE);
+        int messageColumnIndex = results.getColumnIndex(mo.COL_MESSAGE);
         int idColIndex = results.getColumnIndex(mo.COL_ID);
+        int idColType = results.getColumnIndex(mo.COL_TYPE);
 
         //iterate over the results, return true if there is a next item
         while(results.moveToNext())
         {
-            String msg = results.getString(MessageColumnIndex);
+            String msg = results.getString(messageColumnIndex);
 
             long id = results.getLong(idColIndex);
 
+            int type = results.getInt(idColType);
+
+
             //add the new Contact to the array list:
-            chatMessage.add(new Message(msg, id));
+            chatMessage.add(new Message(msg, id,type));
         }
 
+        printCursor(results);
+         //getting the chatText field from the screen
+          ListView listView = findViewById(R.id.MessagelistView);
+          chatText = findViewById(R.id.editChat);
+
+
+        myAdapter = new MessageAdapter(this);
+        listView.setAdapter(myAdapter);
         //set sending button onclick listener
         Button btSend = findViewById(R.id.btnSend);
         btSend.setOnClickListener(new View.OnClickListener() {
@@ -77,8 +88,15 @@ public class ChatRoomActivity extends AppCompatActivity {
                 chatMessage.add(new Message(chatText.getText().toString(), SENDING_MESSAGE));
                 //repeat the process of getCount() and getView()
                 myAdapter.notifyDataSetChanged();
-                chatText.setText("");
+                ContentValues cv = new ContentValues();
+                cv.put(mo.COL_MESSAGE,chatText.getText().toString());
+                cv.put(mo.COL_TYPE,SENDING_MESSAGE);
+                db.insert(mo.TABLE_NAME,"NULLCOLUMN",cv);
 
+                chatText.setText("");
+                results = db.query(false, mo.TABLE_NAME,
+                        arguments, null, null, null, null, null, null);
+                 chatText.setText("");
             }
         });
 
@@ -92,19 +110,45 @@ public class ChatRoomActivity extends AppCompatActivity {
                 chatMessage.add(new Message(chatText.getText().toString(), RECEIVING_MESSAGE));
                 //repeat the process of getCount() and getView()
                 myAdapter.notifyDataSetChanged();
+                ContentValues cv = new ContentValues();
+                cv.put(mo.COL_MESSAGE,chatText.getText().toString());
+                cv.put(mo.COL_TYPE,RECEIVING_MESSAGE);
+                db.insert(mo.TABLE_NAME,"NULLCOLUMN",cv);
+                chatText.setText("");
+                results = db.query(false, mo.TABLE_NAME,
+                        arguments, null, null, null, null, null, null);
                 chatText.setText("");
             }
         });
 
-        //This listens for items being clicked in the list view
+     //This listens for items being clicked in the list view
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
+
+                Context context = view.getContext();
                 TextView textViewItem = (view.findViewById(R.id.chatMessage));
                 String listItemText = textViewItem.getText().toString();
-                Log.d("messageListView", "onItemClick: " + i + " " + l);
+
             }
         });
+    }
+
+    private void printCursor(Cursor c) {
+
+        Log.i(ACTIVITY_NAME, "version: " + db.getVersion()+
+        ", number of cursor: " + c.getColumnCount() +
+        ", name of cursor: " + c.getColumnNames() +
+        ",number of results: " + c.getCount());
+
+        c.moveToFirst();
+
+        while(!c.isAfterLast()){
+
+            Log.i(ACTIVITY_NAME,"MESSAGE: "+ c.getString(c.getColumnIndex(mo.COL_MESSAGE)));
+            results.moveToNext();
+
+        }
     }
 
 
@@ -172,7 +216,7 @@ class Message {
     public Message(String m, int type) {
         setMessages(m);
         setMsgType(type);
-        //setDbId(id);
+
 
     }
 
@@ -180,6 +224,12 @@ class Message {
         setMessages(m);
         setDbId(id);
     }
+
+     public Message(String m, long id, int type){
+         setMessages(m);
+         setDbId(id);
+         setMsgType(type);
+     }
 
     String getMessages() {
         return messages;

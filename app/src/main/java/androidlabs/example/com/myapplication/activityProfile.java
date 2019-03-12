@@ -55,6 +55,15 @@ public class activityProfile extends AppCompatActivity {
                       startActivity(goToChat);
            }
     });
+
+        Button button = findViewById(R.id.btnGotoToolbar);
+        button.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent goToToolbar= new Intent();
+                goToToolbar.setClass(activityProfile.this,TestToolBar.class);
+                startActivity(goToToolbar);
+            }
+        });
     }
 
     @Override
@@ -99,15 +108,7 @@ public class activityProfile extends AppCompatActivity {
         }
     }
 
-   /* Button button = findViewById(R.id.btnGoToChat);
-       button.setOnClickListener(new View.OnClickListener(){
-        public void onClick(View v){
-            Intent goToChat = new Intent();
-            goToChat.setClass(activityProfile.this,ChatRoomActivity.class);
 
-            startActivity(goToChat);
-        }
-    });*/
 
 }
 

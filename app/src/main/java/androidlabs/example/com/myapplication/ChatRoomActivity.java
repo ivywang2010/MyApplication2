@@ -146,7 +146,7 @@ public class ChatRoomActivity extends AppCompatActivity {
         while(!c.isAfterLast()){
 
             Log.i(ACTIVITY_NAME,"MESSAGE: "+ c.getString(c.getColumnIndex(mo.COL_MESSAGE)));
-            results.moveToNext();
+            c.moveToNext();
 
         }
     }

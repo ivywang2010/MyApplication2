@@ -16,7 +16,10 @@
     <string name="btnSend">send </string>
     <string name="btnReceive">Receive </string>
     <string name="btnGoToChat">Go to chat </string>
-    
+    <string name="btnGoToToolbar">Go to Toolbar Page </string>
+    <string name="choice1">first choice </string>
+    <string name="choice2">second choice </string>
+    <string name="choice3">third choice </string>
 
 
 </resources>

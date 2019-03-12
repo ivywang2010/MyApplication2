@@ -22,6 +22,7 @@
         </activity>
         <activity android:name=".activityProfile" />
         <activity android:name=".ChatRoomActivity" />
+        <activity android:name=".TestToolBar"></activity>
     </application>
 
 </manifest>

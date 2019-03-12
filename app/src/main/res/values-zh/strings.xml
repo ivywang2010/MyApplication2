@@ -17,6 +17,10 @@
     <string name="btnSend">发送</string>
     <string name="btnReceive">接收</string>
     <string name="btnGoToChat">前往聊天室</string>
+    <string name="btnGoToToolbar">前往按钮选项</string>
+    <string name="choice1">选择一 </string>
+    <string name="choice2">选择二 </string>
+    <string name="choice3">选择三 </string>
 
 
 </resources>

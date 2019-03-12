@@ -69,6 +69,12 @@
         android:text="@string/textViewClickPicture" />
 
     <Button
+        android:id="@+id/btnGotoToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btnGoToToolbar" />
+
+    <Button
         android:id="@+id/btnGotoChat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

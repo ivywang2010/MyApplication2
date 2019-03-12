@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/menuItem1"
+        android:title="@string/choice1"
+        android:icon="@drawable/choice1"
+        android:orderInCategory="1001"
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/menuItem2"
+        android:title="@string/choice2"
+        android:icon="@drawable/choice2"
+        android:orderInCategory="1002"
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/menuItem3"
+        android:title="@string/choice3"
+        android:icon="@drawable/choice3"
+        android:orderInCategory="1003"
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/menuItem4"
+        android:title="flow menu"
+        android:orderInCategory="1004"
+        app:showAsAction="never"
+        tools:ignore="HardcodedText" />
+
+</menu>

@@ -21,6 +21,7 @@
     <string name="choice1">选择一 </string>
     <string name="choice2">选择二 </string>
     <string name="choice3">选择三 </string>
+    <string name="btnGoToWeatherForecaster">前往天气预报 </string>
 
 
 </resources>

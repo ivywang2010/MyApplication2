@@ -31,7 +31,6 @@ public class activityProfile extends AppCompatActivity {
             }
         }
 
-
         mImageButton = findViewById(R.id.imageButton);
         if (mImageButton != null) {
             mImageButton.setOnClickListener(new View.OnClickListener() {
@@ -43,6 +42,7 @@ public class activityProfile extends AppCompatActivity {
                     }
 
                 }
+
             });
         }
 
@@ -55,6 +55,16 @@ public class activityProfile extends AppCompatActivity {
                       startActivity(goToChat);
            }
     });
+
+        Button weatherButton = findViewById(R.id.btnGotoWeatherForecaster);
+        weatherButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent goToWeather = new Intent();
+                goToWeather.setClass(activityProfile.this,WeatherForecast.class);
+                startActivity(goToWeather);
+            }
+        });
 
         Button button = findViewById(R.id.btnGotoToolbar);
         button.setOnClickListener(new View.OnClickListener(){

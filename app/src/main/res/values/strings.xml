@@ -20,6 +20,7 @@
     <string name="choice1">first choice </string>
     <string name="choice2">second choice </string>
     <string name="choice3">third choice </string>
+    <string name="btnGoToWeatherForecaster">go to weather forecast </string>
 
 
 </resources>

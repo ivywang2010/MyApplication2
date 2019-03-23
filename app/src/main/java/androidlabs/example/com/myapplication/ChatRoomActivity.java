@@ -37,6 +37,12 @@ public class ChatRoomActivity extends AppCompatActivity {
     protected static SQLiteDatabase db;
     String[] arguments = new String[] { mo.COL_ID, mo.COL_MESSAGE,mo.COL_TYPE};
 
+    public static final String ITEM_SELECTED = "ITEM";
+    public static final String ITEM_TYPE = "TYPE";
+    public static final String ITEM_POSITION = "POSITION";
+    public static final String ITEM_ID = "ID";
+    public static final int EMPTY_ACTIVITY = 345;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +85,7 @@ public class ChatRoomActivity extends AppCompatActivity {
 
         myAdapter = new MessageAdapter(this);
         listView.setAdapter(myAdapter);
+        boolean isTablet = findViewById(R.id.fragmentLocation) != null;
         //set sending button onclick listener
         Button btSend = findViewById(R.id.btnSend);
         btSend.setOnClickListener(new View.OnClickListener() {
@@ -124,14 +131,61 @@ public class ChatRoomActivity extends AppCompatActivity {
      //This listens for items being clicked in the list view
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Context context = view.getContext();
                 TextView textViewItem = (view.findViewById(R.id.chatMessage));
                 String listItemText = textViewItem.getText().toString();
 
+                //ab 8 based on class example
+                Bundle dataToPass = new Bundle();
+                dataToPass.putString(ITEM_SELECTED, chatMessage.get(position).getMessages());
+                dataToPass.putInt(ITEM_TYPE,chatMessage.get(position).getMsgType());
+                dataToPass.putInt(ITEM_POSITION, position);
+                dataToPass.putLong(ITEM_ID, chatMessage.get(position).getDbId());
+
+                if(isTablet)
+                {
+                    FragmentDetail dFragment = new FragmentDetail(); //add a DetailFragment
+                    dFragment.setArguments( dataToPass ); //pass it a bundle for information
+                    dFragment.setTablet(true);  //tell the fragment if it's running on a tablet or not
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .add(R.id.fragmentLocation, dFragment) //Add the fragment in FrameLayout
+                            .addToBackStack("AnyName") //make the back button undo the transaction
+                            .commit(); //actually load the fragment.
+                }
+                else //isPhone
+                {
+                    Intent nextActivity = new Intent(ChatRoomActivity.this, empty_fragment.class);
+                    nextActivity.putExtras(dataToPass); //send data to next activity
+                    startActivityForResult(nextActivity, EMPTY_ACTIVITY); //make the transition
+                }
             }
+
+            //end lab 8 part
+
         });
+    }
+
+    //This function only gets called on the phone. The tablet never goes to a new activity
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == EMPTY_ACTIVITY)
+        {
+            if(resultCode == RESULT_OK) //if you hit the delete button instead of back button
+            {
+                long id = data.getLongExtra(ITEM_ID, 0);
+                deleteMessageId((int)id);
+            }
+        }
+    }
+
+    public void deleteMessageId(int id)
+    {
+        Log.i("Delete this message:" , " id="+id);
+        chatMessage.remove(id);
+        myAdapter.notifyDataSetChanged();
     }
 
     private void printCursor(Cursor c) {
@@ -198,6 +252,8 @@ public class ChatRoomActivity extends AppCompatActivity {
             return result;
         }
 
+
+
     }
 }
 
@@ -254,5 +310,7 @@ class Message {
     private void setDbId(long id){
         this.dbID=id;
     }
+
+
 
 }

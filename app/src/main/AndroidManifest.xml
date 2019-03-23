@@ -5,7 +5,9 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
-        <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -23,10 +25,10 @@
         <activity android:name=".activityProfile" />
         <activity android:name=".ChatRoomActivity" />
         <activity android:name=".TestToolBar" />
-        <activity android:name=".WeatherForecast"></activity>
-
+        <activity android:name=".WeatherForecast" />
+        <activity android:name=".fragment_message" />
+        <activity android:name=".empty_fragment" >
+        </activity>
     </application>
-
-
 
 </manifest>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android">
+
+<ListView
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:id="@+id/MessagelistView"
+android:layout_above="@id/btnReceive" />
+
+
+<Button
+android:id="@+id/btnSend"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_alignParentBottom="true"
+android:text="@string/btnSend"/>
+
+
+<EditText
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:hint="Type here"
+android:ems="10"
+android:id="@+id/editChat"
+android:layout_toLeftOf="@id/btnReceive"
+android:layout_toRightOf="@id/btnSend"
+android:layout_alignBaseline="@+id/btnSend"
+android:layout_alignBottom="@+id/btnSend"/>
+
+
+<Button
+android:text="@string/btnReceive"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/btnReceive"
+android:layout_alignParentBottom="true"
+android:layout_alignParentEnd="true" />
+
+
+<FrameLayout
+        android:id="@+id/fragmentLocation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorAccent"
+        android:layout_toRightOf="@id/MessagelistView"/>
+
+</RelativeLayout>

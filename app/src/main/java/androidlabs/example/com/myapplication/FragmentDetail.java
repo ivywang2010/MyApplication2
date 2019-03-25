@@ -1,7 +1,5 @@
 package androidlabs.example.com.myapplication;
 
-
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +17,7 @@ public class FragmentDetail extends Fragment {
     private boolean isTablet;
     private Bundle dataFromActivity;
     private long id;
+    private int type;
 
     public void setTablet(boolean tablet) { isTablet = tablet; }
 
@@ -29,6 +28,8 @@ public class FragmentDetail extends Fragment {
 
         dataFromActivity = getArguments();
         id = dataFromActivity.getLong(ChatRoomActivity.ITEM_ID );
+        type = dataFromActivity.getInt(ChatRoomActivity.ITEM_TYPE);
+
 
         // Inflate the layout for this fragment
         View result =  inflater.inflate(R.layout.activity_fragment_message, container, false);
@@ -40,6 +41,16 @@ public class FragmentDetail extends Fragment {
         //show the id:
         TextView idView = (TextView)result.findViewById(R.id.idText);
         idView.setText("ID=" + id);
+
+        //show the type
+        TextView msgType = (TextView)result.findViewById(R.id.messageType);
+        if(type == 2){
+        msgType.setText("Type is receiving ");}
+        else if(type == 1){
+            msgType.setText("Type is sending ");
+        }
+
+
 
         // get the delete button, and add a click listener:
         Button deleteButton = (Button)result.findViewById(R.id.deleteButton);

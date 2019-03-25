@@ -137,7 +137,7 @@ public class ChatRoomActivity extends AppCompatActivity {
                 TextView textViewItem = (view.findViewById(R.id.chatMessage));
                 String listItemText = textViewItem.getText().toString();
 
-                //ab 8 based on class example
+                //these codes are based on class example
                 Bundle dataToPass = new Bundle();
                 dataToPass.putString(ITEM_SELECTED, chatMessage.get(position).getMessages());
                 dataToPass.putInt(ITEM_TYPE,chatMessage.get(position).getMsgType());
@@ -151,7 +151,7 @@ public class ChatRoomActivity extends AppCompatActivity {
                     dFragment.setTablet(true);  //tell the fragment if it's running on a tablet or not
                     getSupportFragmentManager()
                             .beginTransaction()
-                            .add(R.id.fragmentLocation, dFragment) //Add the fragment in FrameLayout
+                            .add(R.id.fragmentLocation,dFragment) //Add the fragment in FrameLayout
                             .addToBackStack("AnyName") //make the back button undo the transaction
                             .commit(); //actually load the fragment.
                 }
@@ -163,12 +163,10 @@ public class ChatRoomActivity extends AppCompatActivity {
                 }
             }
 
-            //end lab 8 part
-
         });
-    }
+    } //This function only gets called on the phone. The tablet never goes to a new activity
 
-    //This function only gets called on the phone. The tablet never goes to a new activity
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == EMPTY_ACTIVITY)
@@ -251,8 +249,6 @@ public class ChatRoomActivity extends AppCompatActivity {
 
             return result;
         }
-
-
 
     }
 }
